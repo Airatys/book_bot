@@ -5,6 +5,7 @@ from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from config.config import Config, load_config
+from database.database import init_db
 
 
 
@@ -27,6 +28,8 @@ async def main():
     dp = Dispatcher()
 
     logger.info("Preparing book")
+
+    db: dict = init_db()
 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
