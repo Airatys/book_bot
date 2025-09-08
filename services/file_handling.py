@@ -5,8 +5,8 @@ import os
 logger = logging.getLogger(__name__)
 
 
-def _get_part_text(text: str, start: int, page_size: int) -> tuple[str, int]:
-    end = start + page_size
+def _get_part_text(text: str, start: int, size: int) -> tuple[str, int]:
+    end = start + size
     fragment = text[start:end]
     last_punct_idx = 0
 
@@ -17,5 +17,16 @@ def _get_part_text(text: str, start: int, page_size: int) -> tuple[str, int]:
         if char in '.,:;!?':
             last_punct_idx = idx
 
-    result = fragment[:last_punct_idx]
-    return result, len(result)
+    page_text = fragment[:last_punct_idx]
+    return page_text, len(page_text)
+
+
+def prepare_book(path: str, page_size: int = 1050) -> dict[int, str]:
+    start = 0
+    page_namber = 1
+
+    with open(path, 'r', encoding='u8') as files:
+        text = files.read()
+
+    while start < len(text):
+        page_text, length = _get_part_text(text, start, page_size)
