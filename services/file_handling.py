@@ -24,9 +24,17 @@ def _get_part_text(text: str, start: int, size: int) -> tuple[str, int]:
 def prepare_book(path: str, page_size: int = 1050) -> dict[int, str]:
     start = 0
     page_namber = 1
+    book = {}
 
     with open(path, 'r', encoding='u8') as files:
         text = files.read()
 
     while start < len(text):
+
         page_text, length = _get_part_text(text, start, page_size)
+        if page_text:
+            book.setdefault(page_namber, page_text.lstrip())
+            page_namber += 1
+            start += length
+        else:
+            break
