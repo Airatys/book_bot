@@ -5,27 +5,17 @@ import os
 logger = logging.getLogger(__name__)
 
 
-def _get_part_text(text: str, start: int, size: int) -> tuple[str, int]:
-    punctuation = ',.!:;?'
-    end = size + 1
-    page_text = text[start:end]
-    page_size = len(page_text)
-    
-    while size >= 0:
-        if page_text[size] in punctuation:
-            if size > 0 and (page_text[size-1] in punctuation or page_text[page_size] in punctuation):
-                size -= 1
-                continue
-            break
-        else:
-            break
+def _get_part_text(text: str, start: int, page_size: int) -> tuple[str, int]:
+    end = start + page_size
+    fragment = text[start:end]
+    last_punct_idx = 0
 
-    return page_text, page_size
+    if end < len(text) and text[end] in '.,:;!?':
+        fragment = fragment.rsplit(' ', 1)[0]
 
+    for idx, char in enumerate(fragment, 1):
+        if char in '.,:;!?':
+            last_punct_idx = idx
 
-def prepare_book(path: str, page_size: int = 1050) -> dict[int, str]:
-    book = {}
-
-    # ...
-
-    return book
+    result = fragment[:last_punct_idx]
+    return result, len(result)
