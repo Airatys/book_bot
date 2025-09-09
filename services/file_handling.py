@@ -1,5 +1,4 @@
 import logging
-import os
 
 
 logger = logging.getLogger(__name__)
@@ -26,11 +25,10 @@ def prepare_book(path: str, page_size: int = 1050) -> dict[int, str]:
     page_namber = 1
     book = {}
 
-    with open(path, 'r', encoding='u8') as files:
+    with open(path, 'r', encoding="utf-8") as files:
         text = files.read()
 
     while start < len(text):
-
         page_text, length = _get_part_text(text, start, page_size)
         if page_text:
             book.setdefault(page_namber, page_text.lstrip())
@@ -38,3 +36,5 @@ def prepare_book(path: str, page_size: int = 1050) -> dict[int, str]:
             start += length
         else:
             break
+        
+    return book
