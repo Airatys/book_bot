@@ -5,7 +5,7 @@ from lexicon.lexicon import LEXICON
 
 def create_bookmarks_keyboard(*args: int, book: dict) -> InlineKeyboardMarkup:
     kb_builder = InlineKeyboardBuilder()
-    
+
     for button in sorted(args):
         kb_builder.row(
             InlineKeyboardButton(
@@ -20,7 +20,7 @@ def create_bookmarks_keyboard(*args: int, book: dict) -> InlineKeyboardMarkup:
         InlineKeyboardButton(text=LEXICON["cancel"], callback_data="cancel"),
         width=2,
     )
-    
+
     return kb_builder.as_markup()
 
 
@@ -38,4 +38,3 @@ def create_edit_keyboard(*args: int, book: dict) -> InlineKeyboardMarkup:
     kb_builder.row(InlineKeyboardButton(text=LEXICON["cancel"], callback_data="cancel"))
 
     return kb_builder.as_markup()
-

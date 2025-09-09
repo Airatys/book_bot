@@ -10,7 +10,7 @@ def create_pagination_keyboard(*buttons: str) -> InlineKeyboardMarkup:
         *[
             InlineKeyboardButton(
                 text=LEXICON[button] if button in LEXICON else button,
-                callback_data=buttons
+                callback_data=button,
             )
             for button in buttons
         ]

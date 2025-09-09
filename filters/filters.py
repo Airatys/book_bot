@@ -4,8 +4,7 @@ from aiogram.types import CallbackQuery
 
 class IsDigitCallbackData(BaseFilter):
     async def __call__(self, callback: CallbackQuery) -> bool:
-        await callback.data.isdigit()
-
+        return callback.data.isdigit()
 
 
 class IsDelBookmarkCallbackData(BaseFilter):

@@ -14,29 +14,28 @@ from services.file_handling import prepare_book
 
 logger = logging.getLogger(__name__)
 
-
 async def main():
     config: Config = load_config()
 
     logging.basicConfig(
         level=logging.getLevelName(level=config.log.level),
-        format=config.log.format
+        format=config.log.format,
     )
     logger.info("Starting bot")
 
     bot = Bot(
         token=config.bot.token,
-        default=DefaultBotProperties(parse_mode=ParseMode.HTML)
+        default=DefaultBotProperties(parse_mode=ParseMode.HTML),
     )
     dp = Dispatcher()
 
     logger.info("Preparing book")
-    book = prepare_book("book/Bredberi_Marsianskie-hroniki.txt")
+    book = prepare_book("book/book.txt")
     logger.info("The book is uploaded. Total pages: %d", len(book))
 
     db: dict = init_db()
     dp.workflow_data.update(book=book, db=db)
-    
+
     await set_main_menu(bot)
 
     dp.include_router(user_router)
@@ -46,5 +45,5 @@ async def main():
     await dp.start_polling(bot)
 
 
-if __name__=='__main__':
-    asyncio.run(min())
+if __name__ == "__main__":
+    asyncio.run(main())
